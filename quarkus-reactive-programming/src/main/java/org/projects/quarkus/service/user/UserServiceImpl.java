@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.projects.audit.AuditGrpc;
+import org.projects.audit.AuditGrpc.AuditStub;
+import org.projects.audit.MutinyAuditGrpc.MutinyAuditStub;
 import org.projects.quarkus.constants.ApplicationConstants;
 import org.projects.quarkus.dto.common.ResponseDTO;
 import org.projects.quarkus.dto.user.UserDetails;
@@ -12,6 +15,7 @@ import org.projects.quarkus.model.UserGroup;
 import org.projects.quarkus.model.Users;
 import org.projects.quarkus.repositories.UserRepository;
 
+import io.quarkus.grpc.GrpcClient;
 import io.quarkus.hibernate.reactive.panache.Panache;
 import io.smallrye.mutiny.Uni;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +30,13 @@ public class UserServiceImpl implements UserService {
 
 	@Inject
 	UserRepository userRepo;
+	
+	/**
+	 * Stub for accessing audit service 
+	 */
+	@GrpcClient("audit")
+	MutinyAuditStub auditStub;
+
 
 	/**
 	 * INFO : Implementation to get the user details from the db
@@ -70,6 +81,7 @@ public class UserServiceImpl implements UserService {
 		}).collect(Collectors.toList());
 		var user = new Users(details.getUsername(), details.getFirstName(), details.getLastName(), details.getEmailId(),
 				details.getPassword(), groups);
+		
 		return Panache.withTransaction(() -> userRepo.persist(user).onItem().transform(userObject -> {
 			var response = new ResponseDTO();
 			response.setMessage(ApplicationConstants.REGISTER_USER_SUCCESS);

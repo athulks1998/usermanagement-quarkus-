@@ -27,5 +27,10 @@ public class ApplicationConstants {
 	 public static final String CREATE_GROUP_SUCCESS="User group created successfully";
 	 
 	 
+	 //////////////////////////////Not Applicable////////////////////////////
+	 
+	 public static final String NOT_APPLICABLE="N/A";
+	 
+	 
 	 
 }

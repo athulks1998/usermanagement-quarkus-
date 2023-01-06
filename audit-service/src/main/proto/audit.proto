@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.projects.audit";
+option java_outer_classname = "AuditProto";
+package hello;
+
+service Audit {
+	rpc addAudit (AddAuditDTO) returns (AuditResponse) {
+	}
+	rpc viewAudit (ViewAuditRequest) returns (ListAudit) {
+	}
+}
+
+message AddAuditDTO {
+	string oldValue = 1;
+	string newValue = 2;
+	string updatedBy = 3;
+	string createdBy = 4;
+	string updatedTime = 5;
+	string entityName = 6;
+	string property = 7;
+}
+
+message AuditResponse {
+	string message = 1;
+	int64 responseCode = 2;
+	string errorCode = 3;
+}
+
+message ViewAuditRequest {
+	string updatedBy = 1;
+	string createdBy = 2;
+	string containsValue = 3;
+	string fromDate = 4;
+	string toDate = 5;
+	int32 page = 6;
+	int32 pageSize = 7;
+}
+
+message ListAudit {
+	repeated AddAuditDTO auditList = 1;
+	int32 pageNo = 3;
+	int32 entryCount = 4;
+	AuditResponse responseData = 2;
+}
+

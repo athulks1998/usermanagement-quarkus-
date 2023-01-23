@@ -2,6 +2,8 @@ package org.projects.quarkus.dto.group;
 
 import java.util.List;
 
+import org.projects.quarkus.dto.common.ResponseDTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -13,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class GroupDetailsDTO {
+public class GroupDetailsDTO extends ResponseDTO {
 	
 	/**
 	 * Stores ID of the group

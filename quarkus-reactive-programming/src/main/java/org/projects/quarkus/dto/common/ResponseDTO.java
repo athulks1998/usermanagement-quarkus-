@@ -18,21 +18,21 @@ public class ResponseDTO {
 	/**
 	 * To store the success/failure message of the API call
 	 */
-	private String message;
+	protected String message;
 	
 	/**
 	 * To Store the success/failure status 
 	 */
-	private String status;
+	protected String status;
 	
 	/**
 	 * To store the response code based on the response 
 	 */
-	private Long statusCode;
+	protected Long statusCode;
 	
 	/**
 	 * Stores unique identifiers finding error logs 
 	 */
-	private String errorCode;
+	protected String errorCode;
 
 }

@@ -1,6 +1,12 @@
 package org.projects.quarkus.constants;
 
+/**
+ * @author athul
+ * INFO : To store the constant Data 
+ */
 public class ApplicationConstants {
+	
+	ApplicationConstants(){}
 
 	//////////////////////////////Common constants/////////////////////////////
 	
@@ -11,6 +17,8 @@ public class ApplicationConstants {
 	 public static final Long SUCCESS_CODE = 200l;
 	 
 	 public static final Long INTERNAL_SERVER_ERROR_CODE = 500l;
+	 
+	 public static final Long UNAUTHORIZED_CODE = 401l;
 	 
 	 ///////////////////////////User Service Messages ///////////////////////////
 	 
@@ -32,5 +40,10 @@ public class ApplicationConstants {
 	 public static final String NOT_APPLICABLE="N/A";
 	 
 	 
+     ///////////////////////////Access Service Messages ///////////////////////////
+	 
+	 public static final String USER_LOGIN_FAILURE="An Error occured while validating user credentials";
+	 
+	 public static final String USER_LOGIN_SUCCESS="User logged in successfully!";
 	 
 }

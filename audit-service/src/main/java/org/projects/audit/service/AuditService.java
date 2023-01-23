@@ -23,6 +23,7 @@ import io.quarkus.grpc.GrpcService;
 import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import lombok.extern.slf4j.Slf4j;
+import io.quarkus.agroal.DataSource;
 
 /**
  * @author athul ks INFO : Audit related services
@@ -33,6 +34,10 @@ public class AuditService implements Audit {
 
 	@Inject
 	AuditRepo auditRepo;
+	
+
+    @Inject
+    DataSource dataSource;
 
 	/**
 	 * INFO : Function to capture the audit details

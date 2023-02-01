@@ -14,6 +14,10 @@ public class ApplicationConstants {
 	 
 	 public static final String FAILURE ="Failure";
 	 
+	 public static final String INTERNAL_SERVER_ERROR ="Internal Server Error!";
+	 
+	 public static final String UNAUTHORIZED ="Unauthorized!";
+	 
 	 public static final Long SUCCESS_CODE = 200l;
 	 
 	 public static final Long INTERNAL_SERVER_ERROR_CODE = 500l;

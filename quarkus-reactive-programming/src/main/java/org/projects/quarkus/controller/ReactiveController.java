@@ -1,7 +1,5 @@
 package org.projects.quarkus.controller;
 
-
-
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,8 +11,10 @@ import javax.ws.rs.core.Response;
 
 import org.projects.quarkus.constants.ApplicationConstants;
 import org.projects.quarkus.dto.group.CreateGroupDTO;
+import org.projects.quarkus.dto.login.LoginRequestDTO;
 import org.projects.quarkus.dto.user.UserDetails;
 import org.projects.quarkus.service.group.GroupService;
+import org.projects.quarkus.service.login.UserAccessService;
 import org.projects.quarkus.service.user.UserService;
 
 import io.smallrye.mutiny.Uni;
@@ -30,13 +30,15 @@ public class ReactiveController {
 
 	@Inject
 	UserService userService;
-	
+
 	@Inject
 	GroupService groupService;
 
+	@Inject
+	UserAccessService accessService;
+
 	/**
-	 * @return
-	 * INFO : A simple service greeting message 
+	 * @return INFO : A simple service greeting message
 	 */
 	@GET
 	@Path("/greet")
@@ -47,7 +49,7 @@ public class ReactiveController {
 
 	/**
 	 * @param id
-	 * @return Response with user details 
+	 * @return Response with user details
 	 */
 	@GET
 	@Path("/user/{id}")
@@ -65,11 +67,12 @@ public class ReactiveController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Uni<Response> registerUser(UserDetails userDetail) {
 		return userService.registerUser(userDetail).onItem().transform(response -> {
-			return response.getStatusCode() == ApplicationConstants.SUCCESS_CODE ? Response.ok().entity(response).build()
+			return response.getStatusCode() == ApplicationConstants.SUCCESS_CODE
+					? Response.ok().entity(response).build()
 					: Response.serverError().entity(response).build();
 		});
 	}
-	
+
 	/**
 	 * @param group
 	 * @return Response with success or failure details for create group
@@ -79,20 +82,29 @@ public class ReactiveController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Uni<Response> createGroup(CreateGroupDTO group) {
 		return groupService.createGroup(group).onItem().transform(response -> {
-			return response.getStatusCode() == ApplicationConstants.SUCCESS_CODE ? Response.ok().entity(response).build()
+			return response.getStatusCode() == ApplicationConstants.SUCCESS_CODE
+					? Response.ok().entity(response).build()
 					: Response.serverError().entity(response).build();
 		});
 	}
-	
-	
+
 	/**
 	 * @return The list of groups
 	 */
 	@GET
 	@Path("/group/list")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Uni<Response> groupList()
-	{
+	public Uni<Response> groupList() {
 		return groupService.listGroups().onItem().transform(list -> Response.ok().entity(list).build());
+	}
+
+	/**
+	 * @return Login response
+	 */
+	@POST
+	@Path("/user/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Uni<Response> userLogin(LoginRequestDTO request) {
+		return accessService.loginUser(request).onItem().transform(response -> Response.ok().entity(response).build());
 	}
 }

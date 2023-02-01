@@ -14,6 +14,7 @@ import org.projects.quarkus.dto.user.UserDetails;
 import org.projects.quarkus.model.UserGroup;
 import org.projects.quarkus.model.Users;
 import org.projects.quarkus.repositories.UserRepository;
+import org.projects.quarkus.utils.PasswordHashing;
 
 import io.quarkus.grpc.GrpcClient;
 import io.quarkus.hibernate.reactive.panache.Panache;
@@ -80,7 +81,7 @@ public class UserServiceImpl implements UserService {
 			return group;
 		}).collect(Collectors.toList());
 		var user = new Users(details.getUsername(), details.getFirstName(), details.getLastName(), details.getEmailId(),
-				details.getPassword(), groups);
+				PasswordHashing.hashString(details.getPassword()), groups);
 		
 		return Panache.withTransaction(() -> userRepo.persist(user).onItem().transform(userObject -> {
 			var response = new ResponseDTO();

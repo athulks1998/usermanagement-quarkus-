@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PasswordHashing {
 	
+	
 	/**
 	 * INFO : Private constructor to avoid initialization 
 	 */
@@ -23,10 +24,22 @@ public class PasswordHashing {
 	 * INFO : Compares two hashed Strings 
 	 * 
 	 */
-	public static Boolean compareHashedString(String storedPassword, String newlyHashed)
+	public static boolean compareHashedString(String storedPassword, String newlyHashed)
 	{
 		log.info("Entry : Check password");
-		return  BCrypt.checkpw(storedPassword, newlyHashed);
+		return  BCrypt.checkpw(newlyHashed,storedPassword);
+	}
+	
+	
+	
+	/**
+	 * @param password
+	 * @return
+	 * INFO : Method to hash a String 
+	 */
+	public static String hashString(String password)
+	{
+		return BCrypt.hashpw(password,BCrypt.gensalt(12));
 	}
 	
 	
